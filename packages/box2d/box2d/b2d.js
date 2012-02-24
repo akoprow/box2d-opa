@@ -1,26 +1,45 @@
 ##extern-type world
+##extern-type shape
 ##extern-type body
-##extern-type bodyDef
-##extern-type shapeDef
-
+##extern-type aabbb
 ##extern-type vec2
- // AABB
-##extern-type boundingBox
+
+// ##############################################################################
+// #################################### aabb ####################################
+// ##############################################################################
+##register aabb_init : float, float, float, float -> aabb
+##args(x1, y1, x2, y2)
+{
+    var r = new b2AABB();
+    r.minVertex.Set(x1, y1);
+    r.maxVertex.Set(x2, y2);
+    return r;
+}
+
+// ##############################################################################
+// #################################### aabb ####################################
+// ##############################################################################
+
+##register vec2_init : float, float -> vec2
+##args(x, y)
+{
+    return new b2Vec2(x, y);
+}
 
 // ###############################################################################
 // #################################### world ####################################
 // ###############################################################################
 
-##register world_init : boundingBox, vec2, bool -> world
+##register world_init : aabb, vec2, bool -> world
 ##args(coordinates, grativity, doSleep)
 {
     return new b2World(coordinates, grativity, doSleep);
 }
 
-##register world_createBody: world, bodyDef -> body
-##args(world, body_def)
+##register world_addBody: world, body -> void
+##args(world, body)
 {
-    return world.CreateBody(body_def);
+    return world.CreateBody(body);
 }
 
 ##register world_step : world, int, int -> void
@@ -29,69 +48,44 @@
     world.Step(dt, iterations);
 }
 
-// ###############################################################################
-// ################################### bodyDef ###################################
-// ###############################################################################
+// #############################################################################
+// #################################### shape ##################################
+// #############################################################################
 
-##register bodyDef_init : -> void
-##args()
+##register shape_box_init : float, float -> shape
+##args(width, height)
 {
-    return new b2BodyDef();
+    var r = new b2BoxDef();
+    r.extents.Set(width, height);
+    return r;
 }
 
-##register bodyDef_addShape : body, shapeDef -> void
-##args(body, shape)
+##register shape_set_restitution : shape, float -> shape
+##args(shape, restitution)
 {
-    body.AddShape(shape);
+    shape.restitution = restitution;
 }
 
-##register bodyDef_getPosition : body -> vec2
-##args(body)
-{
-    return body.position;
-}
-
-// ###############################################################################
-// ################################### shapeDef ##################################
-// ###############################################################################
-
-##register shapeDef_initBox : -> shapeDef
-##args()
-{
-    return new b2BoxDef();
-}
-
-##register shapeDef_setDensity : shapeDef, float -> void
+##register shape_set_density : shape, float -> shape
 ##args(shape, density)
 {
     shape.density = density;
 }
 
-##register shapeDef_setFriction : shapeDef, float -> void
+##register shape_set_friction : shape, float -> shape
 ##args(shape, friction)
 {
-    shape.density = friction;
+    shape.friction = friction;
 }
 
-##register shapeDef_getExtends : shapeDef -> vec2
-##args(shape)
+// ############################################################################
+// #################################### body ##################################
+// ############################################################################
+
+##register body_init : float, float -> body
+##args(pos_x, pos_y)
 {
-    return shape.extends;
+    var r = new b2BodyDef();
+    r.position.Set(pos_x, pos_y);
+    return r;
 }
-
-// ###############################################################################
-// ##################################### vec2 ####################################
-// ###############################################################################
-
-##register vec2_init : -> vec2
-##args()
-{
-    return new b2Vec2();
-}
-
-##register vec2_Set : vec2, float, float -> vec2
-##args(vec, x, y)
-{
-    vec.Set(x, y);
-}
-
