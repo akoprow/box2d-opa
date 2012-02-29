@@ -48,7 +48,7 @@
     return world.CreateBody(body);
 }
 
-##register world_step : B2d.world, int, int -> void
+##register world_step : B2d.world, float, int -> void
 ##args(world, delta, iterations)
 {
     world.Step(dt, iterations);
@@ -104,7 +104,7 @@
 }
 
 ##register body_get_position : B2d.body -> B2d.vec2
-#args(body)
+##args(body)
 {
     return body.position;
 }

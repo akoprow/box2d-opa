@@ -1,5 +1,7 @@
 import box2d
 
+import stdlib.web.canvas
+
 function ignore(_) { void } // TODO Should be in stdlib somewhere
 
 module Stack {
@@ -59,8 +61,23 @@ function createWorld() {
   world
 }
 
+function drawWorld(ctx, world) {
+  Canvas.clear_rect(ctx, 0, 0, Dom.get_width(#game), Dom.get_height(#game))
+  B2D_drawing.draw(world, ctx);
+}
+
+function step(ctx, world)() {
+  timeStep = 1. / 60.
+  B2D_World.step(world, timeStep, 1);
+  drawWorld(ctx, world);
+}
+
 function showDemo(demo)(_) {
-  createWorld() |> demo.buildWorld
+  ctx = Canvas.get(#game) |> Option.get
+     |> Canvas.get_context_2d |> Option.get
+  world = createWorld()
+  Scheduler.timer(10, step(ctx, world));
+  demo.buildWorld(world);
 }
 
 function page() {
