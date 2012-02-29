@@ -7,8 +7,8 @@ SRC =
 MAINSRC = box2d-demo.opa
 PCKDIR = ./packages/
 PCK = box2d.opx
-PLUGIN =
-PLUGINDIR =
+PLUGINDIR = ./plugins/
+PLUGIN = prototype.opp
 OTHER_DEPENDS =
 
 #Compiler variables
