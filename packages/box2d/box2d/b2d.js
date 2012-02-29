@@ -26,6 +26,12 @@
     return new b2Vec2(x, y);
 }
 
+##register vec2_set : B2d.vec2, float, float -> B2d.vec2
+##args(vec, x, y)
+{
+    vec.Set(x, y);
+}
+
 // ###############################################################################
 // #################################### world ####################################
 // ###############################################################################
@@ -95,4 +101,10 @@
 {
     body.AddShape(shape);
     return body;
+}
+
+##register body_get_position : B2d.body -> B2d.vec2
+#args(body)
+{
+    return body.position;
 }

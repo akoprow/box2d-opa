@@ -20,6 +20,10 @@ module B2D_Vec2 {
       %%B2d.vec2_init%%(coords.x, coords.y);
   }
 
+  function set(vec, coords) {
+      %%B2d.vec2_set%%(vec, coords.x, coords.y);
+  }
+
 }
 
 module B2D_Shape {
@@ -51,6 +55,12 @@ module B2D_Body {
   function add_shape(body, shape) {
       %%B2d.body_add_shape%%(body, shape);
   }
+
+  function get_position(body) {
+      %%B2d.body_get_position%%(body)
+  }
+
+
 
 }
 
